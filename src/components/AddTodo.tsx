@@ -29,7 +29,7 @@ export const AddTodo: React.FC<AddTodoProps> = ({ onAdd }) => {
                 type="text"
                 value={text}
                 onChange={(e) => setText(e.target.value)}
-                placeholder="Enter task..."
+                placeholder="タスク名"
                 className="w-full px-3 py-2 md:px-4 md:py-3 lg:px-5 lg:py-4 text-sm md:text-base rounded-xl md:rounded-2xl border-2 border-slate-600/50 bg-slate-900/60 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 transition-all"
             />
 
@@ -37,7 +37,7 @@ export const AddTodo: React.FC<AddTodoProps> = ({ onAdd }) => {
                 type="date"
                 value={dueDate}
                 onChange={(e) => setDueDate(e.target.value)}
-                className="w-full px-3 py-2 md:px-4 md:py-2 lg:px-5 lg:py-3 text-xs md:text-sm rounded-xl md:rounded-2xl border-2 border-slate-600/50 bg-slate-900/60 text-slate-300 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 transition-all"
+                className="w-full px-2 py-2 md:px-4 md:py-2 lg:px-5 lg:py-3 text-xs md:text-sm rounded-xl md:rounded-2xl border-2 border-slate-600/50 bg-slate-900/60 text-slate-300 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 transition-all"
                 placeholder="期限日（任意）"
             />
 

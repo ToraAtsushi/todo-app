@@ -10,15 +10,37 @@ export const TodoApp: React.FC = () => {
     const [filter, setFilter] = useState<'all' | 'active' | 'completed'>('all');
 
     const todos = useLiveQuery(async () => {
-        let collection = db.todos.orderBy('createdAt').reverse();
+        let collection = db.todos.toCollection();
 
         if (filter === 'active') {
-            return await collection.filter(todo => !todo.completed).toArray();
+            collection = db.todos.filter(t => !t.completed);
         } else if (filter === 'completed') {
-            return await collection.filter(todo => todo.completed).toArray();
+            collection = db.todos.filter(t => t.completed);
         }
 
-        return await collection.toArray();
+        const allTodos = await collection.toArray();
+
+        // カスタムソート
+        return allTodos.sort((a, b) => {
+            // 1. 完了済みは最後
+            if (a.completed && !b.completed) return 1;
+            if (!a.completed && b.completed) return -1;
+
+            // 2. 未完了の場合、期限日の有無で並び替え
+            if (!a.completed && !b.completed) {
+                // 期限日ありが優先
+                if (a.dueDate && !b.dueDate) return -1;
+                if (!a.dueDate && b.dueDate) return 1;
+
+                // 両方期限日ありの場合、期限日が近い順
+                if (a.dueDate && b.dueDate) {
+                    return new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime();
+                }
+            }
+
+            // 3. その他は登録日時の新しい順
+            return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+        });
     }, [filter]);
 
     const handleAddTodo = async (text: string, dueDate?: Date, note?: string) => {
@@ -79,8 +101,8 @@ export const TodoApp: React.FC = () => {
                                 key={f}
                                 onClick={() => setFilter(f)}
                                 className={`px-4 py-2 md:px-6 md:py-3 lg:px-8 lg:py-4 rounded-xl md:rounded-2xl text-sm md:text-base font-bold transition-all shadow-lg hover:scale-105 ${filter === f
-                                        ? 'bg-cyan-500 text-white shadow-cyan-500/50'
-                                        : 'bg-slate-700 text-slate-300 hover:bg-slate-600 hover:text-white'
+                                    ? 'bg-cyan-500 text-white shadow-cyan-500/50'
+                                    : 'bg-slate-700 text-slate-300 hover:bg-slate-600 hover:text-white'
                                     }`}
                             >
                                 {f.charAt(0).toUpperCase() + f.slice(1)}

@@ -152,8 +152,8 @@ export const TodoItem: React.FC<TodoItemProps> = ({ todo, onToggle, onDelete, on
                 {/* Task content */}
                 <div className="flex-1 min-w-0">
                     <p className={`text-lg font-medium mb-2 ${todo.completed
-                            ? 'line-through text-slate-400'
-                            : 'text-white'
+                        ? 'line-through text-slate-400'
+                        : 'text-white'
                         }`}>
                         {todo.text}
                     </p>
@@ -162,9 +162,22 @@ export const TodoItem: React.FC<TodoItemProps> = ({ todo, onToggle, onDelete, on
                         <div className="text-xs text-slate-500">登録日時：{formatDate(todo.createdAt)}</div>
 
                         {todo.dueDate && (
-                            <div className={`text-xs font-medium ${new Date(todo.dueDate) < new Date() && !todo.completed
-                                    ? 'text-red-400'
-                                    : 'text-amber-400'
+                            <div className={`text-xs font-medium ${(() => {
+                                    const now = new Date();
+                                    now.setHours(0, 0, 0, 0); // Normalize 'now' to start of day for accurate day diff
+                                    const due = new Date(todo.dueDate);
+                                    due.setHours(0, 0, 0, 0); // Normalize 'due' to start of day
+                                    const diffTime = due.getTime() - now.getTime();
+                                    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+                                    if (diffDays < 0 && !todo.completed) {
+                                        return 'text-red-400'; // 期限切れ
+                                    } else if (diffDays >= 0 && diffDays <= 7 && !todo.completed) {
+                                        return 'text-amber-400'; // 7日以内
+                                    } else {
+                                        return 'text-slate-500'; // デフォルト
+                                    }
+                                })()
                                 }`}>
                                 期限日：{formatDateOnly(todo.dueDate)}
                             </div>

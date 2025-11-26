@@ -13,7 +13,7 @@ export const TodoList: React.FC<TodoListProps> = ({ todos, onToggle, onDelete, o
     if (todos.length === 0) {
         return (
             <div className="text-center py-10 text-gray-500 dark:text-gray-400">
-                <p className="text-lg">No todos yet. Add one above!</p>
+                <p className="text-lg">タスクは全て対応済みです！✅</p>
             </div>
         );
     }

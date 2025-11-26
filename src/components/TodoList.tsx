@@ -19,7 +19,7 @@ export const TodoList: React.FC<TodoListProps> = ({ todos, onToggle, onDelete, o
     }
 
     return (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 gap-6">
             {todos.map((todo) => (
                 <TodoItem
                     key={todo.id}

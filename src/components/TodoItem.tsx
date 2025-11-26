@@ -36,6 +36,30 @@ export const TodoItem: React.FC<TodoItemProps> = ({ todo, onToggle, onDelete, on
         return `${year}/${month}/${day}`;
     };
 
+    // Linkify URLs in note text
+    const linkifyNote = (text: string) => {
+        const urlRegex = /(https?:\/\/[^\s]+)/g;
+        const parts = text.split(urlRegex);
+
+        return parts.map((part, index) => {
+            if (part.match(urlRegex)) {
+                return (
+                    <a
+                        key={index}
+                        href={part}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-cyan-400 hover:text-cyan-300 underline break-all"
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        {part}
+                    </a>
+                );
+            }
+            return part;
+        });
+    };
+
     const handleSave = () => {
         onUpdate(todo.id, {
             text: editText.trim(),
@@ -103,8 +127,10 @@ export const TodoItem: React.FC<TodoItemProps> = ({ todo, onToggle, onDelete, on
         <div
             className="bg-slate-700/60 rounded-2xl p-6 shadow-xl hover:shadow-2xl hover:bg-slate-700/80 transition-all cursor-pointer"
             onClick={(e) => {
-                // Don't enter edit mode if clicking on checkbox or delete button
-                if ((e.target as HTMLElement).closest('input[type="checkbox"]') || (e.target as HTMLElement).closest('button')) {
+                // Don't enter edit mode if clicking on checkbox, delete button, or links
+                if ((e.target as HTMLElement).closest('input[type="checkbox"]') ||
+                    (e.target as HTMLElement).closest('button') ||
+                    (e.target as HTMLElement).closest('a')) {
                     return;
                 }
                 setIsEditing(true);
@@ -145,8 +171,8 @@ export const TodoItem: React.FC<TodoItemProps> = ({ todo, onToggle, onDelete, on
                         )}
 
                         {todo.note && (
-                            <div className="text-xs text-slate-400 mt-2 p-2 bg-slate-800/50 rounded-lg">
-                                {todo.note}
+                            <div className="text-xs text-slate-400 mt-2 p-2 bg-slate-800/50 rounded-lg whitespace-pre-wrap break-words">
+                                {linkifyNote(todo.note)}
                             </div>
                         )}
                     </div>

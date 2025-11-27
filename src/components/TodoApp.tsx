@@ -100,7 +100,7 @@ export const TodoApp: React.FC = () => {
                             <button
                                 key={f}
                                 onClick={() => setFilter(f)}
-                                className={`px-4 py-2 md:px-6 md:py-3 lg:px-8 lg:py-4 rounded-xl md:rounded-2xl text-sm md:text-base font-bold transition-all shadow-lg hover:scale-105 ${filter === f
+                                className={`px-4 py-2 md:px-6 md:py-3 lg:px-8 lg:py-4 rounded-xl md:rounded-2xl text-sm md:text-base font-bold transition-all shadow-lg hover:scale-105 cursor-pointer ${filter === f
                                     ? 'bg-cyan-500 text-white shadow-cyan-500/50'
                                     : 'bg-slate-700 text-slate-300 hover:bg-slate-600 hover:text-white'
                                     }`}

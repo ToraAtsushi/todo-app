@@ -52,7 +52,7 @@ export const AddTodo: React.FC<AddTodoProps> = ({ onAdd }) => {
             <button
                 type="submit"
                 disabled={!text.trim()}
-                className="w-full px-4 py-3 md:px-5 md:py-3 lg:px-6 lg:py-4 bg-cyan-600 hover:bg-cyan-500 text-white text-sm md:text-base font-bold rounded-xl md:rounded-2xl shadow-lg shadow-cyan-500/20 hover:shadow-xl hover:shadow-cyan-500/30 hover:scale-[1.02] transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+                className="w-full px-4 py-3 md:px-5 md:py-3 lg:px-6 lg:py-4 bg-cyan-600 hover:bg-cyan-500 text-white text-sm md:text-base font-bold rounded-xl md:rounded-2xl shadow-lg shadow-cyan-500/20 hover:shadow-xl hover:shadow-cyan-500/30 hover:scale-[1.02] transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 cursor-pointer"
             >
                 Add Task
             </button>

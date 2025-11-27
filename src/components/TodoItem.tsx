@@ -107,13 +107,13 @@ export const TodoItem: React.FC<TodoItemProps> = ({ todo, onToggle, onDelete, on
                         <button
                             onClick={handleSave}
                             disabled={!editText.trim()}
-                            className="flex-1 px-4 py-3 bg-cyan-600 hover:bg-cyan-500 text-white font-bold rounded-xl shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                            className="flex-1 px-4 py-3 bg-cyan-600 hover:bg-cyan-500 text-white font-bold rounded-xl shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
                         >
                             保存
                         </button>
                         <button
                             onClick={handleCancel}
-                            className="flex-1 px-4 py-3 bg-slate-600 hover:bg-slate-500 text-white font-bold rounded-xl shadow-lg transition-all"
+                            className="flex-1 px-4 py-3 bg-slate-600 hover:bg-slate-500 text-white font-bold rounded-xl shadow-lg transition-all cursor-pointer"
                         >
                             キャンセル
                         </button>
@@ -163,21 +163,21 @@ export const TodoItem: React.FC<TodoItemProps> = ({ todo, onToggle, onDelete, on
 
                         {todo.dueDate && (
                             <div className={`text-xs font-medium ${(() => {
-                                    const now = new Date();
-                                    now.setHours(0, 0, 0, 0); // Normalize 'now' to start of day for accurate day diff
-                                    const due = new Date(todo.dueDate);
-                                    due.setHours(0, 0, 0, 0); // Normalize 'due' to start of day
-                                    const diffTime = due.getTime() - now.getTime();
-                                    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                                const now = new Date();
+                                now.setHours(0, 0, 0, 0); // Normalize 'now' to start of day for accurate day diff
+                                const due = new Date(todo.dueDate);
+                                due.setHours(0, 0, 0, 0); // Normalize 'due' to start of day
+                                const diffTime = due.getTime() - now.getTime();
+                                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
-                                    if (diffDays < 0 && !todo.completed) {
-                                        return 'text-red-400'; // 期限切れ
-                                    } else if (diffDays >= 0 && diffDays <= 7 && !todo.completed) {
-                                        return 'text-amber-400'; // 7日以内
-                                    } else {
-                                        return 'text-slate-500'; // デフォルト
-                                    }
-                                })()
+                                if (diffDays < 0 && !todo.completed) {
+                                    return 'text-red-400'; // 期限切れ
+                                } else if (diffDays >= 0 && diffDays <= 7 && !todo.completed) {
+                                    return 'text-amber-400'; // 7日以内
+                                } else {
+                                    return 'text-slate-500'; // デフォルト
+                                }
+                            })()
                                 }`}>
                                 期限日：{formatDateOnly(todo.dueDate)}
                             </div>
@@ -197,7 +197,7 @@ export const TodoItem: React.FC<TodoItemProps> = ({ todo, onToggle, onDelete, on
                         e.stopPropagation();
                         onDelete(todo.id);
                     }}
-                    className="flex-shrink-0 p-3 text-slate-400 hover:text-red-400 rounded-xl hover:bg-slate-600/50 transition-all"
+                    className="flex-shrink-0 p-3 text-slate-400 hover:text-red-400 rounded-xl hover:bg-slate-600/50 transition-all cursor-pointer"
                     aria-label="Delete todo"
                 >
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
